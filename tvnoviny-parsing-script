@@ -1,0 +1,43 @@
+from bs4 import BeautifulSoup
+import requests
+def main():
+    r = requests.get('https://tvnoviny.sk/sport/clanok/180677-vyhodnotenie-ankety-o-najkrajsi-gol-ms-najviac-bodovali-tieto-tri-presne-zasahy')
+    soup = BeautifulSoup(r.content, features="lxml")
+
+    title = soup.title.string
+    print ('NÁZOV :', title)
+
+    title = soup.find("meta", attrs={'property': 'og:title'})
+    image = soup.find("meta", attrs={'name': 'keywords'})
+    
+
+    
+    if image is None:
+        print("Neboli pridane keywords")
+    else:
+        print("KEYWORDS:",image["content"])
+    if title is None:
+        print("Nebol pridaný popis")
+    else:
+        print("POPIS:",title["content"])
+    
+  
+        
+    
+   
+    cas=soup.find("time")
+    print("DÁTUM a ČAS:",cas.text)
+    odsek=soup.find(class_="is-active")
+    print("ODSEK:",odsek.text)
+    autor=soup.find(class_ = 'author -name')
+    print("AUTOR:",autor.text)
+    print("ČLÁNOK:") 
+    for data in soup.find_all("p",class_=''): 
+        print(data.text)
+    
+    
+ 
+
+if __name__ == '__main__':
+    
+    main()
