@@ -1,0 +1,50 @@
+from bs4 import BeautifulSoup
+import requests
+
+def main():
+    r = requests.get('https://www.modrykonik.sk/ask-an-expert/poradna-rodinnej-a-detskej-psychologie/ako-ovladat-svoj-hnev-a-bezmocnost/')
+    soup = BeautifulSoup(r.content, features="lxml")
+
+    title = soup.title.string
+    print ('NÁZOV :', title)
+
+    title = soup.find("meta", attrs={'property': 'og:title'})
+    image = soup.find("meta", attrs={'name': 'keywords'})
+    
+
+    
+    if image is None:
+        print("Neboli pridane keywords")
+    else:
+        print("KEYWORDS:",image["content"])
+    if title is None:
+        print("Nebol pridaný popis")
+    else:
+        print("POPIS:",title["content"])
+    
+    
+    podsek=soup.find("div",class_="ym_f bek_bi bek_by bek_ca")
+    print("ODSEK A PODODSEK:",podsek.text)
+    čas=soup.find("div",class_="of_o bek_g bek_st bek_fi bek_om")
+    print("DÁTUM:",čas.text)
+    print("ČLÁNOK:") 
+    for data in soup.find_all("p"): 
+        print(data.text)
+    odpoved=soup.find("div",class_="nw_c bek_ea bek_sf")
+    print("MENO ODPOVEDAJÚCEHO:",odpoved.text)
+    
+    
+    
+        
+   
+    
+    
+    
+    
+    
+ 
+
+if __name__ == '__main__':
+    
+    main()
+    
